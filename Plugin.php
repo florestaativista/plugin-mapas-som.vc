@@ -25,9 +25,13 @@ class Plugin extends \MapasCulturais\Plugin {
         });
 
         $app->hook('ApiQuery(Agent).joins', function(&$joins) use($app) {
-            $som_active = $app->view instanceof \SOM\Theme;
+            $request = $app->request;
 
-            if ($som_active) {
+            $som_active = $app->view instanceof \SOM\Theme;
+            // Don't filter agents when listing users, editing profile, etc.
+            $listing_agents = $request->controllerId === 'agent' && $request->action === 'find';
+
+            if ($som_active && $listing_agents) {
                 $joins .= "
                     JOIN e.user u
                     JOIN e.__metadata funcao with funcao.key = 'funcao_musica' AND funcao.value IS NOT NULL
