@@ -34,8 +34,9 @@ class Plugin extends \MapasCulturais\Plugin {
             if ($som_active && $listing_agents) {
                 $joins .= "
                     JOIN e.user u
-                    JOIN e.__metadata funcao with funcao.key = 'funcao_musica' AND funcao.value IS NOT NULL
                     JOIN u.__metadata um WITH um.key = 'som_active' AND um.value = '1'
+                    JOIN e.__termRelations tr
+                    JOIN tr.term funcao WITH funcao.taxonomy = 'funcao_musica' AND funcao.term IS NOT NULL
                 ";
             }
         });
