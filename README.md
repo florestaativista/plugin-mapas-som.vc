@@ -1,0 +1,1 @@
+# plugin-mapas-som.vc
