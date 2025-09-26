@@ -9,7 +9,21 @@ use MapasCulturais\i;
 
 class Plugin extends \MapasCulturais\Plugin {
 
-    public function _init() { }
+    public function _init() {
+        $app = App::i();
+
+        $app->hook('auth.successful', function () use ($app) {
+            if ($app->auth->isUserAuthenticated()) {
+                $user = $app->user;
+                $som_active = $app->view instanceof \SOM\Theme;
+
+                if ($som_active && empty($user->som_active)) {
+                    $user->som_active = '1';
+                    $user->save(true);
+                }
+            }
+        });
+    }
 
     public function register() {
         $app = App::i();
