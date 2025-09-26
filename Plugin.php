@@ -23,6 +23,18 @@ class Plugin extends \MapasCulturais\Plugin {
                 }
             }
         });
+
+        $app->hook('ApiQuery(Agent).joins', function(&$joins) use($app) {
+            $som_active = $app->view instanceof \SOM\Theme;
+
+            if ($som_active) {
+                $joins .= "
+                    JOIN e.user u
+                    JOIN e.__metadata funcao with funcao.key = 'funcao_musica' AND funcao.value IS NOT NULL
+                    JOIN u.__metadata um WITH um.key = 'som_active' AND um.value = '1'
+                ";
+            }
+        });
     }
 
     public function register() {
