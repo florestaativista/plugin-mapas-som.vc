@@ -40,6 +40,17 @@ class Plugin extends \MapasCulturais\Plugin {
                 ";
             }
         });
+
+        $app->hook('template(agent.edit.entity-info):end', function () use ($app) {
+            $som_active = $app->view instanceof \SOM\Theme;
+
+            if (!$som_active) {
+                $this->import('som-edit-agent');
+            ?>
+                <som-edit-agent :entity="entity"></som-edit-agent>
+            <?php
+            }
+        });
     }
 
     public function register() {
@@ -86,7 +97,7 @@ class Plugin extends \MapasCulturais\Plugin {
         $this->registerUserMetadata('som_active', [
             'label' => i::__('Usuário ativo no som.vc'),
             'type' => 'boolean',
-            'fieldType' => 'checkbox',
+            'field_type' => 'checkbox',
         ]);
     }
 }
