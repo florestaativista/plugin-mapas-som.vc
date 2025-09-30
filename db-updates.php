@@ -1,5 +1,6 @@
 <?php
 
+use MapasCulturais\App;
 use MapasCulturais\Entities\Subsite;
 
 return [
@@ -12,4 +13,11 @@ return [
         $subsite->aliasUrl = 'som.localhost';
         $subsite->save(true);
     },
+
+    'configura filtro de oportunidades' => function () {
+        $app = App::i();
+        $subsite = $app->repo('Subsite')->find(1);
+        $subsite->filter_subsite_opportunity = true;
+        $subsite->save(true);
+    }
 ];
