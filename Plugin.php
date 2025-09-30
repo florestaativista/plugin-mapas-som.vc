@@ -12,18 +12,6 @@ class Plugin extends \MapasCulturais\Plugin {
     public function _init() {
         $app = App::i();
 
-        $app->hook('auth.successful', function () use ($app) {
-            if ($app->auth->isUserAuthenticated()) {
-                $user = $app->user;
-                $som_active = $app->view instanceof \SOM\Theme;
-
-                if ($som_active && empty($user->som_active)) {
-                    $user->som_active = '1';
-                    $user->save(true);
-                }
-            }
-        });
-
         $app->hook('template(agent.edit.entity-info):end', function () use ($app) {
             $som_active = $app->view instanceof \SOM\Theme;
 
