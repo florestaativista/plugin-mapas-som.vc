@@ -24,27 +24,10 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         });
 
-        $app->hook('ApiQuery(Agent).joins', function(&$joins) use($app) {
-            $request = $app->request;
-
-            $som_active = $app->view instanceof \SOM\Theme;
-            // Don't filter agents when listing users, editing profile, etc.
-            $listing_agents = $request->controllerId === 'agent' && $request->action === 'find';
-
-            if ($som_active && $listing_agents) {
-                $joins .= "
-                    JOIN e.user u
-                    JOIN u.__metadata um WITH um.key = 'som_active' AND um.value = '1'
-                    JOIN e.__termRelations tr
-                    JOIN tr.term funcao WITH funcao.taxonomy = 'funcao_musica' AND funcao.term IS NOT NULL
-                ";
-            }
-        });
-
         $app->hook('template(agent.edit.entity-info):end', function () use ($app) {
             $som_active = $app->view instanceof \SOM\Theme;
 
-            if (!$som_active) {
+            if (!$som_active && $app->user->is('som-tester')) {
                 $this->import('som-edit-agent');
             ?>
                 <som-edit-agent :entity="entity"></som-edit-agent>
