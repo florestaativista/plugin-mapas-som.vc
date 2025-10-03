@@ -16,8 +16,15 @@ return [
 
     'configura filtro de oportunidades' => function () {
         $app = App::i();
-        $subsite = $app->repo('Subsite')->find(1);
+        $subsite = $app->repo('Subsite')->findOneBy(['namespace' => 'SOM']);
         $subsite->filter_subsite_opportunity = true;
+        $subsite->save(true);
+    },
+
+    'configura filtro de projetos' => function () {
+        $app = App::i();
+        $subsite = $app->repo('Subsite')->findOneBy(['namespace' => 'SOM']);
+        $subsite->filter_subsite_project = true;
         $subsite->save(true);
     }
 ];
