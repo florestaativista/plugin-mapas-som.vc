@@ -30,36 +30,8 @@ class Plugin extends \MapasCulturais\Plugin {
         $som_active = $app->view instanceof \SOM\Theme;
 
         $funcao_terms = [
-            i::__('Cantor'),
-            i::__('Compositor'),
-            i::__('Instrumentista'),
-            i::__('DJ'),
-            i::__('VJ'),
-            i::__('Produtor de Festival'),
-            i::__('Curadoria'),
-            i::__('Produtor'),
-            i::__('Arranjador'),
-            i::__('Engenheiro de som'),
-            i::__('Técnico de estúdio'),
-            i::__('A.R'),
-            i::__('Diretor criativo'),
-            i::__('Design de palco'),
-            i::__('Produtor de Campo'),
-            i::__('Tour Manager'),
-            i::__('Técnico de Monitor'),
-            i::__('Técnico de PA'),
-            i::__('Roadie'),
-            i::__('Clipe'),
-            i::__('Transmissão ao vivo'),
-            i::__('Cobertura'),
-            i::__('Professor'),
-            i::__('Jornalista'),
-            i::__('P.R'),
-            i::__('Produtor de Conteúdo'),
-            i::__('Social Media'),
-            i::__('Redator'),
-            i::__('Assessor de imprensa'),
-            i::__('Desenvolvimento'),
+            i::__('Artista'),
+            i::__('Produção'),
         ];
 
         $funcao_musica = new Definitions\Taxonomy(503, 'funcao_musica', i::__('Função na música'), $funcao_terms, $som_active);
