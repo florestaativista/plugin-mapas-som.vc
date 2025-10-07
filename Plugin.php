@@ -2,15 +2,19 @@
 
 namespace PluginSOM;
 
+use MapasCulturais\API;
 use MapasCulturais\App;
 use MapasCulturais\Definitions;
 use MapasCulturais\Entities;
+use MapasCulturais\Entities\Subsite;
 use MapasCulturais\i;
 
 class Plugin extends \MapasCulturais\Plugin {
 
     public function _init() {
         $app = App::i();
+
+        $self = $this;
 
         $app->hook('template(agent.edit.entity-info):end', function () use ($app) {
             $som_active = $app->view instanceof \SOM\Theme;
@@ -21,6 +25,19 @@ class Plugin extends \MapasCulturais\Plugin {
                 <som-edit-agent :entity="entity"></som-edit-agent>
             <?php
             }
+        });
+
+
+        /* FILTRA A API DE OPORTUNIDADES */
+        $app->hook('ApiQuery(Opportunity).params', function(&$params) use($app, $self) {
+            /** @var Subsite */
+            $subsite = $app->repo('Subsite')->findOneBy(['namespace' => 'SOM']);
+
+            if (!$subsite || $subsite->equals($app->subsite)) {
+                return ;
+            }
+
+            $params['subsite'] = API::OR(API::DIFF($subsite->id), API::NULL());
         });
     }
 
